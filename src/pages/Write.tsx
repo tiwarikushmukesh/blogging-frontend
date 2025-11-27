@@ -1,28 +1,32 @@
-import axios from "axios";
 import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { url } from "../link/backendurl";
-import { useNavigate } from "react-router-dom";
+import Publish from "../components/Publish";
 
 export default function WritePage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const navigate = useNavigate();
-
-    async function publish(){
-        await axios.post(`${url}/blog/create`,{
-            title,
-            content
-        })
-        navigate("/")
-    }
+    const [publishComponent, setPublishComponent] = useState(false);
 
     return (
-        <div className="w-full flex justify-center pt-10 min-h-screen">
-            <div className="w-[70%]">
-
+        <div className="w-full flex justify-center  min-h-screen relative ">
+            
+            {publishComponent && (
+            <div
+                className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center"
+                onClick={() => setPublishComponent(false)} // close on background click
+            >
+                <div
+                className="bg-white p-5 rounded-xl shadow-xl"
+                onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside popup
+                >
+                <Publish title={title} content={content} />
+                </div>
+            </div>
+            )}
+            
+            <div className="w-[70%] pt-10 ">
                 <nav className=" flex justify-end px-15 py-5 " >
-                    <button className=" py-2 px-5  text-xl bg-green-700 text-white rounded-2xl " onClick={()=>{publish()}} >Publish</button>
+                    <button className=" py-2 px-5  text-xl bg-green-700 text-white rounded-2xl cursor-pointer " onClick={()=>setPublishComponent(true)} >Publish</button>
                 </nav>
 
                 {/* TITLE INPUT */}
