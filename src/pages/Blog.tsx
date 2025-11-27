@@ -31,21 +31,39 @@ export default function() {
         )
     }
     return (
-        <div  className=" flex justify-center mt-20  " >
-            <div id="main" className="  flex w-[80%] " >
-                <div id="content" className="  w-[80%] " >
-                    <div id="title" className=" text-5xl font-serif font-semibold " >{blog?.title}</div>
-                    <div id="content" className=" mt-5 text-xl font-serif whitespace-pre-line tracking-wider text-justify " >{blog?.content}</div>
+        <div className="flex justify-center mt-10 px-4">
+        <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-10">
+            
+            {/* MAIN CONTENT */}
+            <div className="flex-1">
+            <h1 className="text-4xl md:text-5xl font-serif font-semibold leading-tight">
+                {blog?.title}
+            </h1>
+
+            <div className="mt-6 text-lg md:text-xl font-serif whitespace-pre-line tracking-wide text-justify">
+                {blog?.content}
+            </div>
+            </div>
+
+            {/* AUTHOR SECTION (Only visible on large screens) */}
+            <div className="hidden lg:block w-64  pl-8">
+            <div className="text-gray-700 text-sm uppercase tracking-wide">
+                Author
+            </div>
+
+            <div className="mt-3 flex items-center">
+                <div className="mr-3 w-10 h-10 flex items-center justify-center rounded-full bg-black text-white font-medium text-lg">
+                {blog?.user.firstName[0]}
                 </div>
-                <div id="user" className=" pl-5" >
-                    <div className=" text-gray-700 text-md " >Author .</div>
-                    <div className=" mt-1 flex " >
-                        <div className=" mr-3 w-8 h-8 p-1 rounded-full border text-center bg-black text-white " >{blog?.user.firstName[0]}</div>
-                        <div className=" mr-1 text-lg font-light " >{blog?.user.firstName}</div>
-                        <div className=" text-lg font-light  " >{blog?.user.lastName}</div>
-                    </div>
+
+                <div>
+                <div className="text-lg font-medium">{blog?.user.firstName} {blog?.user.lastName}</div>
                 </div>
             </div>
+            </div>
+
         </div>
+        </div>
+
     )
 }

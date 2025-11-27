@@ -8,25 +8,43 @@ export default function WritePage() {
     const [publishComponent, setPublishComponent] = useState(false);
 
     return (
-        <div className="w-full flex justify-center  min-h-screen relative ">
+        <div className="w-full flex justify-center min-h-screen relative px-4 sm:px-6">
             
+            {/* PUBLISH POPUP */}
             {publishComponent && (
-            <div
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center"
-                onClick={() => setPublishComponent(false)} // close on background click
-            >
                 <div
-                className="bg-white p-5 rounded-xl shadow-xl"
-                onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside popup
+                    className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50"
+                    onClick={() => setPublishComponent(false)}
                 >
-                <Publish title={title} content={content} />
+                    <div
+                        className="bg-white p-4 sm:p-6 rounded-xl shadow-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%]"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <Publish title={title} content={content} />
+                    </div>
                 </div>
-            </div>
             )}
-            
-            <div className="w-[70%] pt-10 ">
-                <nav className=" flex justify-end px-15 py-5 " >
-                    <button className=" py-2 px-5  text-xl bg-green-700 text-white rounded-2xl cursor-pointer " onClick={()=>setPublishComponent(true)} >Publish</button>
+
+            {/* MAIN WRITING AREA */}
+            <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[70%] pt-10">
+
+                {/* NAV */}
+                <nav className="flex justify-end px-2 sm:px-6 py-4">
+                    <button
+                        className="
+                            py-2 px-4 sm:px-6 
+                            text-lg sm:text-xl 
+                            bg-green-700 
+                            text-white 
+                            rounded-2xl 
+                            cursor-pointer 
+                            hover:bg-green-800 
+                            active:scale-95
+                        "
+                        onClick={() => setPublishComponent(true)}
+                    >
+                        Publish
+                    </button>
                 </nav>
 
                 {/* TITLE INPUT */}
@@ -36,13 +54,13 @@ export default function WritePage() {
                     placeholder="Title..."
                     className="
                         w-full 
-                        text-5xl 
+                        text-3xl sm:text-4xl md:text-5xl 
                         font-bold 
                         font-serif 
                         bg-transparent 
                         outline-none 
                         resize-none 
-                        placeholder:text-gray-400 
+                        placeholder:text-gray-400
                     "
                 />
 
@@ -54,9 +72,9 @@ export default function WritePage() {
                     className="
                         w-full 
                         mt-6 
-                        text-xl 
+                        text-base sm:text-lg md:text-xl 
                         font-serif 
-                        leading-8 
+                        leading-7 sm:leading-8 
                         bg-transparent 
                         outline-none 
                         resize-none 
@@ -64,8 +82,8 @@ export default function WritePage() {
                     "
                     minRows={5}
                 />
-
             </div>
         </div>
+
     );
 }
