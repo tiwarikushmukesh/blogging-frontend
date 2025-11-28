@@ -25,7 +25,7 @@ export function BlogCardSkeletion() {
 
 export const FullPageLoader = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-amber-50 z-[9999]">
+    <div className="fixed inset-0 flex items-center justify-center bg-amber-50 z-9999 ">
       <div className="flex flex-col items-center gap-4">
         <div className="h-10 w-10 sm:h-12 sm:w-12 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
         <p className="text-base sm:text-lg font-semibold text-gray-700">Loading...</p>

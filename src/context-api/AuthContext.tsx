@@ -6,12 +6,30 @@ import {BlogCardSkeletion} from "../components/Skeleton";
 interface AuthContextType {
     isLoggedIn : boolean;
     setIsLoggeIn : (value:boolean) => void
+    user : {
+        id : string,
+        email : string,
+        firstName: string,
+        lastName: string
+    },
 };
+interface userType {
+    id : string,
+    email : string,
+    firstName: string,
+    lastName: string
+}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider ({children} : {children : ReactNode}){    //object destructing of props and type of children 
     const [isLoggedIn, setIsLoggeIn] = useState(false);
+    const [user, setUser] = useState<userType>({
+        id: "",
+        email: "",
+        firstName: "",
+        lastName: ""
+    })
     const [loading, setLoading] = useState(true);
     useEffect(()=>{
         async function check () {
@@ -20,6 +38,7 @@ export function AuthProvider ({children} : {children : ReactNode}){    //object 
             });
             if (response.data.authentication) {
                 setIsLoggeIn(true)
+                setUser(response.data.user)
             };
            setLoading(false); 
         };
@@ -46,7 +65,7 @@ export function AuthProvider ({children} : {children : ReactNode}){    //object 
         )
     }
     return (
-        <AuthContext.Provider value={{isLoggedIn, setIsLoggeIn}} >
+        <AuthContext.Provider value={{isLoggedIn, setIsLoggeIn, user}} >
             {children}
         </AuthContext.Provider>
     )

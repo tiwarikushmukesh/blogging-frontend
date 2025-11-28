@@ -4,7 +4,7 @@ import axios from "axios";
 const url = import.meta.env.VITE_BACKEND_URL
 
 export default function Navbar () {
-    const {isLoggedIn, setIsLoggeIn} = useAuth();
+    const {isLoggedIn, setIsLoggeIn , user } = useAuth();
     async function logout() {
         await axios.post(`${url}/user/logout`)
         setIsLoggeIn(false);
@@ -32,15 +32,13 @@ export default function Navbar () {
 
                 <button
                     onClick={logout}
-                    className="
-                    text-sm sm:text-base 
-                    border px-4 py-2 sm:py-3 
-                    rounded-full 
-                    bg-black text-white
-                    "
+                    className="text-sm sm:text-base font-serif 
+                    cursor-pointer "
                 >
                     Logout
                 </button>
+
+                <div className=" border w-10 h-10 text-center text-xl pt-1 bg-black text-white rounded-full cursor-pointer " >{user.firstName[0]}</div>
                 </>
             ) : (
                 <>

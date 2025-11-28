@@ -26,6 +26,7 @@ export default function ({type}:{type: "create" | "login"}) {
     const {setIsLoggeIn} = useAuth();
     const isCreate = type === "create";
 
+    // create account function 
     async function createAccount (value : loginValueType) { 
         if (value.password !== value.confirmPassword){ 
             setResponse("Password differ");
@@ -44,6 +45,8 @@ export default function ({type}:{type: "create" | "login"}) {
         }
 
     }
+
+    // login account function
     async function loginAccount (value:loginValueType) {
         try{
             await axios.post(`${url}/user/signin`,{
@@ -58,8 +61,7 @@ export default function ({type}:{type: "create" | "login"}) {
     }
 
     return (
-        <div className=" h-screen flex flex-col justify-center items-center">
-            
+        <div className=" h-screen flex flex-col justify-center items-center relative">
             <div className=" text-3xl lg:text-5xl font-bold mb-1  " >
                 {type === "create" ? "Create an account" : "Login an account"}
             </div>
