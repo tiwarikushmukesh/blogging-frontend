@@ -1,13 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context-api/AuthContext"
 import axios from "axios";
 const url = import.meta.env.VITE_BACKEND_URL
 
 export default function Navbar () {
     const {isLoggedIn, setIsLoggeIn , user } = useAuth();
+    const navigate = useNavigate();
     async function logout() {
         await axios.post(`${url}/user/logout`)
         setIsLoggeIn(false);
+    }
+    function dashboard(){
+        navigate("/user")
+    }
+    async function createBlog(){
+        const response = await axios.post(`${url}/blog/create`)
+        const blogId = response.data.blog
+        navigate(`/write/${blogId}`)
     }
     return (
         <div className="border-b h-[75px] bg-white flex justify-center">
@@ -23,12 +32,12 @@ export default function Navbar () {
 
             {isLoggedIn ? (
                 <>
-                <Link
-                    to="/write"
+                <button
+                    onClick={() => createBlog()}
                     className="text-sm sm:text-base font-serif"
                 >
                     Write
-                </Link>
+                </button>
 
                 <button
                     onClick={logout}
@@ -38,7 +47,7 @@ export default function Navbar () {
                     Logout
                 </button>
 
-                <div className=" border w-10 h-10 text-center text-xl pt-1 bg-black text-white rounded-full cursor-pointer " >{user.firstName[0]}</div>
+                <div onClick={dashboard}  className=" border w-10 h-10 text-center text-xl pt-1 bg-black text-white rounded-full cursor-pointer " >{user.firstName[0]}</div>
                 </>
             ) : (
                 <>

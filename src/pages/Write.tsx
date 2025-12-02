@@ -1,11 +1,38 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import Publish from "../components/Publish";
+import axios from "axios";
+import { url } from "../link/backendurl";
+import { useParams } from "react-router-dom";
+import StatusToggle from "../components/StatusToggle";
+
 
 export default function WritePage() {
+    const {blogId} = useParams();
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [publishComponent, setPublishComponent] = useState(false);
+
+    useEffect(()=>{
+        axios.get(`${url}/blog/${blogId}`)
+        .then(res => {
+            setTitle(res.data.blog.title);
+            setContent(res.data.blog.content);
+        })
+    },[])
+
+    const save = useCallback(async()=>{
+        axios.put(`${url}/blog/save`,{
+            id: blogId,
+            title,
+            content
+        })
+    },[title,content])
+
+    const debounceRef= useRef<ReturnType<typeof setTimeout>>(0)
+    const debounseSave = useCallback(()=>{
+        clearTimeout(debounceRef.current)
+        debounceRef.current = setTimeout(()=>save(),1000);
+    },[save])
 
     return (
         <div className="w-full flex justify-center min-h-screen relative px-4 sm:px-6">
@@ -20,7 +47,7 @@ export default function WritePage() {
                         className="bg-white p-4 sm:p-6 rounded-xl shadow-xl w-[90%] sm:w-[70%] md:w-[50%] lg:w-[40%]"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <Publish title={title} content={content} />
+                        <StatusToggle id={blogId!} title={title} published={true} />
                     </div>
                 </div>
             )}
@@ -50,7 +77,10 @@ export default function WritePage() {
                 {/* TITLE INPUT */}
                 <TextareaAutosize
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => {
+                        setTitle(e.target.value)
+                        debounseSave()
+                    }}
                     placeholder="Title..."
                     className="
                         w-full 
@@ -67,7 +97,10 @@ export default function WritePage() {
                 {/* CONTENT INPUT */}
                 <TextareaAutosize
                     value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                    onChange={(e) => {
+                        setContent(e.target.value)
+                        debounseSave()
+                    }}
                     placeholder="Tell your story..."
                     className="
                         w-full 

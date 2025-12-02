@@ -5,6 +5,7 @@ import Signup from "./pages/Signup"
 import axios from "axios"
 import Blog from "./pages/Blog"
 import Write from "./pages/Write"
+import Dashboard from "./pages/Dashboard"
 
 
 axios.defaults.withCredentials = true;
@@ -17,7 +18,8 @@ function App() {
         <Route path="/login" element = {<Login />} />
         <Route path="/signup" element ={<Signup />} />
         <Route path="/blog/:id" element={<Blog/>}/>
-        <Route path="/write" element={<Write />} /> 
+        <Route path="/write/:blogId" element={<Write />} />
+        <Route path="/user" element={<Dashboard />} /> 
       </Routes>
     </>
   )

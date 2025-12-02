@@ -4,13 +4,13 @@ import TextareaAutosize from "react-textarea-autosize";
 import { url } from "../link/backendurl";
 import { useNavigate } from "react-router-dom";
 
-export default function ({title, content}: {title: string, content: string}) {
+export default function ({id, title, published}: {id: string, title:string, published: boolean}) {
     const [description, setDescription] = useState("");
     const navigate = useNavigate();
     async function publish(){
-        axios.post(`${url}/blog/create`,{
-            title,
-            content,
+        axios.put(`${url}/blog/status`,{
+            id,
+            published,
             description,
         })
         navigate("/")
@@ -25,7 +25,7 @@ export default function ({title, content}: {title: string, content: string}) {
         ">
 
             {/* TITLE PREVIEW */}
-            <div className="text-xl sm:text-2xl font-serif font-semibold text-gray-900 mb-3 break-words">
+            <div className="text-xl sm:text-2xl font-serif font-semibold text-gray-900 mb-3 wrap-break-words">
                 {title}
             </div>
 
